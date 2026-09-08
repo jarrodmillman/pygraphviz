@@ -51,7 +51,7 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
+          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-* cp315-*"
           CIBW_SKIP: "*-win32 *-manylinux_i686 *-musllinux_*"
 
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
@@ -127,7 +127,7 @@ jobs:
             # (15), so delocate rejects it in an 11.0 wheel. Build from source
             # so the bundled copy carries the 11.0 floor, and point graphviz's
             # configure at it below.
-            dl "https://ftpmirror.gnu.org/libtool/libtool-${LIBTOOL_VERSION}.tar.gz" libtool.tar.gz
+            dl "https://ftp.gnu.org/gnu/libtool/libtool-${LIBTOOL_VERSION}.tar.gz" libtool.tar.gz
             tar xzf libtool.tar.gz
             ( cd "libtool-${LIBTOOL_VERSION}" \
               && ./configure --prefix="$PREFIX" --disable-static \

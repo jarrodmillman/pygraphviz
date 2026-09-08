@@ -20,7 +20,8 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.14t"]
+        python-version:
+          ["3.10", "3.11", "3.12", "3.13", "3.14", "3.14t", "3.15", "3.15t"]
 
     steps:
       - name: Checkout pygraphviz
@@ -30,6 +31,7 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
 
       - name: Update apt-get
         run: sudo apt-get update
@@ -45,11 +47,11 @@ jobs:
           pip list
 
       - name: Test pygraphviz
-        if: ${{ matrix.python-version != '3.14t' }}
+        if: ${{ !endsWith(matrix.python-version, 't') }}
         run: |
           pytest --doctest-modules --durations=10 --pyargs pygraphviz
       - name: Test pygraphviz freethreaded
-        if: ${{ matrix.python-version  == '3.14t' }}
+        if: ${{ endsWith(matrix.python-version, 't') }}
         run: |
           PYTHON_GIL=0 pytest --doctest-modules --durations=10 --pyargs pygraphviz
 
@@ -58,7 +60,8 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.14t"]
+        python-version:
+          ["3.10", "3.11", "3.12", "3.13", "3.14", "3.14t", "3.15", "3.15t"]
 
     steps:
       - name: Checkout pygraphviz
@@ -68,6 +71,7 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
 
       - name: Install graphviz
         run: brew install graphviz
@@ -83,11 +87,11 @@ jobs:
           pip list
 
       - name: Test pygraphviz
-        if: ${{ matrix.python-version != '3.14t' }}
+        if: ${{ !endsWith(matrix.python-version, 't') }}
         run: |
           pytest --doctest-modules --durations=10 --pyargs pygraphviz
       - name: Test pygraphviz freethreaded
-        if: ${{ matrix.python-version == '3.14t' }}
+        if: ${{ endsWith(matrix.python-version, 't') }}
         run: |
           PYTHON_GIL=0 pytest --doctest-modules --durations=10 --pyargs pygraphviz
 
@@ -96,7 +100,8 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.14t"]
+        python-version:
+          ["3.10", "3.11", "3.12", "3.13", "3.14", "3.14t", "3.15", "3.15t"]
 
     steps:
       - name: Checkout pygraphviz
@@ -106,6 +111,7 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
       - name: Install graphviz
         run: choco install graphviz
       - name: Update path
@@ -129,11 +135,11 @@ jobs:
         run: Get-ChildItem "$($env:WIN_GRAPHVIZ_DIR)\bin"
 
       - name: Test pygraphviz
-        if: ${{ matrix.python-version != '3.14t' }}
+        if: ${{ !endsWith(matrix.python-version, 't') }}
         run: |
           pytest --doctest-modules --durations=10 --pyargs pygraphviz
       - name: Test pygraphviz freethreaded
-        if: ${{ matrix.python-version == '3.14t' }}
+        if: ${{ endsWith(matrix.python-version, 't') }}
         run: |
           [Environment]::SetEnvironmentVariable("PYTHON_GIL", 0)
           pytest --doctest-modules --durations=10 --pyargs pygraphviz
